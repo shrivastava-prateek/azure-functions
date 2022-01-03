@@ -32,8 +32,7 @@ public class Function {
 	
 
 	private FunctionService funcService = FunctionService.getInstance();
-	private static final String DEBUGCHAOS_USER_ID = "4211345833";
-	
+	private static String SOURCE_USER_ID = System.getenv("SOURCE_USER_ID");	
 	
 	{
 		System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.SimpleLog");
@@ -81,7 +80,7 @@ public class Function {
 		
 		
 		try {
-			funcService.retweetOrLikeRecentTweets(DEBUGCHAOS_USER_ID);
+			funcService.retweetOrLikeRecentTweets(SOURCE_USER_ID);
 			return request.createResponseBuilder(HttpStatus.NO_CONTENT).build();
 		}catch(Exception e) {
 			return request.createResponseBuilder(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -126,7 +125,7 @@ public class Function {
 		funcService.setCosmosDBOutput(output);
 		funcService.setUserConfigMap(userConfigMap);
 		
-		funcService.retweetOrLikeRecentTweets(DEBUGCHAOS_USER_ID);
+		funcService.retweetOrLikeRecentTweets(SOURCE_USER_ID);
 		
 	}
 

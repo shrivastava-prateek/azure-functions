@@ -74,22 +74,26 @@ public class FunctionService {
 	public void retweetOrLikeRecentTweets(String ofUserId) {
 
 		Set<String> recentTweetIds = getRecentTweetsByUserId(ofUserId);
-		userConfigMap.values().forEach(userConfig -> {
-			int randomNo = r.nextInt(500);
+		
+			int size = userConfigMap.size();
+			int randomNo = r.nextInt(size);
+			
+			UserConfig[] userConfigs = userConfigMap.values().toArray(new UserConfig[0]);
+		
+			System.out.println("Random No: "+randomNo +" User Configs length: "+ userConfigs.length);
+			UserConfig userConfig = userConfigs[randomNo];
+			
 			try {
-				if (randomNo%2 == 0) {
-					System.out.println("Even: Calling like and retweet methods for userId: " + userConfig.getId());
-					retweet(userConfig.getId(), recentTweetIds);
-					likeTweet(userConfig.getId(), recentTweetIds);
-				} else {
+					//System.out.println("Even: Calling like and retweet methods for userId: " + userConfig.getId());
+					//retweet(userConfig.getId(), recentTweetIds);
+					//likeTweet(userConfig.getId(), recentTweetIds);
+		
 					System.out.println("Odd: Calling just the like method for userId: " + userConfig.getId());
 					likeTweet(userConfig.getId(), recentTweetIds);
-				}	
+
 			}catch(RuntimeException e) {
 				e.printStackTrace();
 			}
-		});
-
 	}
 
 	public Set<String> getRecentTweetsByUserId(String userId) {
@@ -133,9 +137,18 @@ public class FunctionService {
 		recentTweets = objectMapper.convertValue(responseSet, new TypeReference<List<Map<String, String>>>() {
 		});
 
-		recentTweetIds = recentTweets.stream().map(element -> element.get("id")).collect(Collectors.toSet());
+		recentTweetIds = recentTweets.stream()
+				.filter(element -> !(element.get("text").startsWith("@")))
+				.map(element -> element.get("id"))
+				.collect(Collectors.toSet());
 		
-		Set<String> filteredTweetIds = recentTweetIds.stream().filter(recentTweetId -> !lastRecentTweetIds.contains(recentTweetId)).collect(Collectors.toSet());
+		System.out.println(recentTweetIds);
+		
+		Set<String> filteredTweetIds = recentTweetIds.stream()
+				.filter(recentTweetId -> !lastRecentTweetIds.contains(recentTweetId))
+				.collect(Collectors.toSet());
+		
+		System.out.println(filteredTweetIds);
 		
 		lastRecentTweetIds = recentTweetIds;
 		

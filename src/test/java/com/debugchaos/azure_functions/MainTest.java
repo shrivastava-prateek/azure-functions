@@ -2,9 +2,13 @@ package com.debugchaos.azure_functions;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.http.client.utils.URIBuilder;
+
+import com.debugchaos.azure_functions.entity.UserConfig;
 
 public class MainTest {
 	
@@ -22,6 +26,14 @@ public class MainTest {
 		
 		Random r = new Random();
 		System.out.println(r.nextInt(2));
+		
+		Map<String, UserConfig> userConfigMap = new HashMap<>();
+		userConfigMap.put("1", new UserConfig());
+		userConfigMap.put("2", new UserConfig());
+		
+		UserConfig[] userConfigs = userConfigMap.values().toArray(new UserConfig[0]);
+		
+		System.out.println(userConfigs.length);
 		
 		
 	}
