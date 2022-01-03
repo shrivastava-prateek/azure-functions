@@ -37,6 +37,7 @@ import com.debugchaos.azure_functions.exception.AuthServiceCallFailedException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.OutputBinding;
 
 public class FunctionService {
@@ -57,6 +58,7 @@ public class FunctionService {
 	private Map<String, UserConfig> userConfigMap = null;
 	private AppConfig appConfig = null;
 	private static FunctionService funcService = new FunctionService();
+	private ExecutionContext context;
 	
 	
 	private FunctionService() {
@@ -80,15 +82,15 @@ public class FunctionService {
 			
 			UserConfig[] userConfigs = userConfigMap.values().toArray(new UserConfig[0]);
 		
-			System.out.println("Random No: "+randomNo +" User Configs length: "+ userConfigs.length);
+			context.getLogger().info("Random No: "+randomNo +" User Configs length: "+ userConfigs.length);
 			UserConfig userConfig = userConfigs[randomNo];
 			
 			try {
-					//System.out.println("Even: Calling like and retweet methods for userId: " + userConfig.getId());
+					//context.getLogger().info("Even: Calling like and retweet methods for userId: " + userConfig.getId());
 					//retweet(userConfig.getId(), recentTweetIds);
 					//likeTweet(userConfig.getId(), recentTweetIds);
 		
-					System.out.println("Odd: Calling just the like method for userId: " + userConfig.getId());
+					context.getLogger().info("Odd: Calling just the like method for userId: " + userConfig.getId());
 					likeTweet(userConfig.getId(), recentTweetIds);
 
 			}catch(RuntimeException e) {
@@ -142,13 +144,13 @@ public class FunctionService {
 				.map(element -> element.get("id"))
 				.collect(Collectors.toSet());
 		
-		System.out.println(recentTweetIds);
+		context.getLogger().info("Recent Tweets" + recentTweetIds);
 		
 		Set<String> filteredTweetIds = recentTweetIds.stream()
 				.filter(recentTweetId -> !lastRecentTweetIds.contains(recentTweetId))
 				.collect(Collectors.toSet());
 		
-		System.out.println(filteredTweetIds);
+		context.getLogger().info("Filtered Tweets: "+ filteredTweetIds);
 		
 		lastRecentTweetIds = recentTweetIds;
 		
@@ -196,11 +198,11 @@ public class FunctionService {
 						retweet(fromUserId, new HashSet<>(Arrays.asList(tweetId)));
 						return;
 					} else {
-						System.out.println("Something went wrong");
+						context.getLogger().info("Something went wrong");
 					}
 
 					String result = EntityUtils.toString(respEntity);
-					System.out.println("Retweet: userId: " + fromUserId + " response: " + result);
+					context.getLogger().info("Retweet: userId: " + fromUserId + " response: " + result);
 
 				} catch (IOException | AuthenticationException | URISyntaxException e) {
 					e.printStackTrace();
@@ -250,11 +252,11 @@ public class FunctionService {
 						likeTweet(fromUserId, new HashSet<>(Arrays.asList(tweetId)));
 						return;
 					} else {
-						System.out.println("Something went wrong");
+						context.getLogger().info("Something went wrong");
 					}
 
 					String result = EntityUtils.toString(respEntity);
-					System.out.println("likeTweet: userId: " + fromUserId + " response: " + result);
+					context.getLogger().info("likeTweet: userId: " + fromUserId + " response: " + result);
 				} catch (IOException | AuthenticationException | URISyntaxException e) {
 					e.printStackTrace();
 				}
@@ -293,7 +295,7 @@ public class FunctionService {
 			
 			HttpEntity respEntity = response.getEntity();
 			String result = EntityUtils.toString(respEntity);
-			System.out.println("fetchNewTokensUsingRefreshToken: response: " + result);
+			context.getLogger().info("fetchNewTokensUsingRefreshToken: response: " + result);
 			
 			if(status>=200 && status<300) {
 				updateNewAccessTokenAndRefreshToken(userId, result);	
@@ -354,6 +356,14 @@ public class FunctionService {
 
 	public void setAppConfig(AppConfig appConfig) {
 		this.appConfig = appConfig;
+	}
+
+	public ExecutionContext getContext() {
+		return context;
+	}
+
+	public void setContext(ExecutionContext context) {
+		this.context = context;
 	}
 	
 	

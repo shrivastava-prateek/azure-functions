@@ -77,6 +77,7 @@ public class Function {
 		funcService.setAppConfig(applicationConfig);
 		funcService.setCosmosDBOutput(output);
 		funcService.setUserConfigMap(userConfigMap);
+		funcService.setContext(context);
 		
 		
 		try {
@@ -124,6 +125,7 @@ public class Function {
 		funcService.setAppConfig(applicationConfig);
 		funcService.setCosmosDBOutput(output);
 		funcService.setUserConfigMap(userConfigMap);
+		funcService.setContext(context);
 		
 		funcService.retweetOrLikeRecentTweets(SOURCE_USER_ID);
 		

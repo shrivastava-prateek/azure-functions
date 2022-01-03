@@ -1,0 +1,9 @@
+{
+	"java.configuration.updateBuildConfiguration": "automatic",
+	"azureFunctions.javaBuildTool": "maven",
+	"azureFunctions.deploySubpath": "target/azure-functions/twitter-functions",
+	"azureFunctions.projectLanguage": "Java",
+	"azureFunctions.projectRuntime": "~4",
+	"debug.internalConsoleOptions": "neverOpen",
+	"azureFunctions.preDeployTask": "package (functions)"
+}

@@ -18,7 +18,6 @@
 		<azure.functions.java.library.version>1.4.2</azure.functions.java.library.version>
 		<functionAppName>twitter-functions</functionAppName>
 		<functionResourceGroup>twitter-utilities</functionResourceGroup>
-		<appServicePlanName>ASP-twitterutilities-8d04</appServicePlanName>
 	</properties>
 
 	<dependencies>
