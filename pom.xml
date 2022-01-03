@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.debugchaos</groupId>
-	<artifactId>azure-functions</artifactId>
+	<artifactId>twitter-azure-functions</artifactId>
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
@@ -16,7 +16,9 @@
 		<java.version>1.8</java.version>
 		<azure.functions.maven.plugin.version>1.14.1</azure.functions.maven.plugin.version>
 		<azure.functions.java.library.version>1.4.2</azure.functions.java.library.version>
-		<functionAppName>azure-functions</functionAppName>
+		<functionAppName>twitter-functions</functionAppName>
+		<functionResourceGroup>twitter-utilities</functionResourceGroup>
+		<appServicePlanName>ASP-twitterutilities-8d04</appServicePlanName>
 	</properties>
 
 	<dependencies>
