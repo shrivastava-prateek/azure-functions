@@ -30,11 +30,9 @@ public class Function {
 	 * host}/api/HttpExample 2. curl "{your host}/api/HttpExample?name=HTTP%20Query"
 	 */
 	
-
-	private FunctionService funcService = FunctionService.getInstance();
 	private static String SOURCE_USER_ID = System.getenv("SOURCE_USER_ID");	
 	
-	{
+	static {
 		System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.SimpleLog");
 		System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
 		System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http.wire", "DEBUG");
@@ -73,7 +71,7 @@ public class Function {
 		}
 		
 		
-		
+		FunctionService funcService = FunctionService.getInstance();
 		funcService.setAppConfig(applicationConfig);
 		funcService.setCosmosDBOutput(output);
 		funcService.setUserConfigMap(userConfigMap);
@@ -122,6 +120,7 @@ public class Function {
 			userConfigMap.put(userConfig.getId(), userConfig);
 		}
 		
+		FunctionService funcService = FunctionService.getInstance();
 		funcService.setAppConfig(applicationConfig);
 		funcService.setCosmosDBOutput(output);
 		funcService.setUserConfigMap(userConfigMap);

@@ -13,7 +13,7 @@ import com.debugchaos.azure_functions.entity.UserConfig;
 public class MainTest {
 	
 	private static final String BASE_URI = "https://api.twitter.com/2/";
-	private static final String USER_TWEETS = "users/:id/tweets";
+	//private static final String USER_TWEETS = "users/:id/tweets";
 	
 	public static void main(String[] args) throws URISyntaxException {
 		URI uri = new URIBuilder(BASE_URI)

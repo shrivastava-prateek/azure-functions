@@ -57,7 +57,6 @@ public class FunctionService {
 	private OutputBinding<UserConfig> cosmosDBOutput = null;
 	private Map<String, UserConfig> userConfigMap = null;
 	private AppConfig appConfig = null;
-	private static FunctionService funcService = new FunctionService();
 	private ExecutionContext context;
 	
 	
@@ -66,11 +65,11 @@ public class FunctionService {
 	}
 	
 	public static FunctionService getInstance() {
-		if(funcService == null) {
-			funcService = new FunctionService();
-			return funcService;
-		}
-		return funcService;
+		//if(funcService == null) {
+			//funcService = new FunctionService();
+			//return funcService;
+		//}
+		return new FunctionService();
 	}
 
 	public void retweetOrLikeRecentTweets(String ofUserId) {
